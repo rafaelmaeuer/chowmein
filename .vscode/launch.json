@@ -1,0 +1,24 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Lable Topic",
+            "type": "python",
+            "request": "launch",
+            "program": "./chowmein/label_topic.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--line_corpus_path", "./chowmein/datasets/nips-2014.dat",
+                "--preprocessing", "wordlen", "stem", "tag",
+                "--label_tags", "NN,NN", "JJ,NN",
+                "--n_cand_labels", "200"
+            ],
+            "env": {
+                "NLTK_DATA": "./nltk_data"
+            }
+        }
+    ]
+}
