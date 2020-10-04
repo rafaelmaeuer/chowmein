@@ -4,14 +4,14 @@ import numpy as np
 
 from sklearn.feature_extraction.text import (CountVectorizer
                                              as WordCountVectorizer)
-from text import LabelCountVectorizer
-from label_finder import BigramLabelFinder
-from label_ranker import LabelRanker
-from pmi import PMICalculator
-from corpus_processor import (CorpusWordLengthFilter,
+from main.text import LabelCountVectorizer
+from main.label_finder import BigramLabelFinder
+from main.label_ranker import LabelRanker
+from main.pmi import PMICalculator
+from main.corpus_processor import (CorpusWordLengthFilter,
                                        CorpusPOSTagger,
                                        CorpusStemmer)
-from data import (load_line_corpus, load_lemur_stopwords)
+from main.data import (load_line_corpus, load_lemur_stopwords)
 
 
 def create_parser():

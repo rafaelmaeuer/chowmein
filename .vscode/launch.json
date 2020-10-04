@@ -8,10 +8,10 @@
             "name": "Lable Topic",
             "type": "python",
             "request": "launch",
-            "program": "./chowmein/label_topic.py",
+            "program": "./label_topic.py",
             "console": "integratedTerminal",
             "args": [
-                "--line_corpus_path", "./chowmein/datasets/nips-2014.dat",
+                "--line_corpus_path", "./datasets/nips-2014.dat",
                 "--preprocessing", "wordlen", "stem", "tag",
                 "--label_tags", "NN,NN", "JJ,NN",
                 "--n_cand_labels", "200"
