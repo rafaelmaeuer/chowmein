@@ -3,7 +3,7 @@ import nltk
 import itertools
 import codecs
 from toolz.functoolz import compose
-import cPickle as pickle
+import pickle as pickle
 
 CURDIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -24,7 +24,7 @@ def load_line_corpus(path, tokenize=True):
 def load_nips(years=None, raw=False):
     # load data
     if not years:
-        years = xrange(2008, 2015)
+        years = range(2008, 2015)
     files = ['nips-{}.dat'.format(year)
              for year in years]
 
@@ -38,6 +38,6 @@ def load_nips(years=None, raw=False):
 
 def load_lemur_stopwords():
     with codecs.open(CURDIR + '/datasets/lemur-stopwords.txt', 
-                     'r' 'utf8') as f:
+                     'r', 'utf8') as f:
         return map(lambda s: s.strip(),
                    f.readlines())

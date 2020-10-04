@@ -29,7 +29,7 @@ if [[ "$DISTRIB" == "conda" ]]; then
 
     # Configure the conda environment and put it in the path using the
     # provided versions
-    conda create -n testenv --yes python=$PYTHON_VERSION pip nose \
+    conda create -n testenv --yes python=$PYTHON_VERSION pip3 nose \
         numpy=$NUMPY_VERSION scipy=$SCIPY_VERSION \
 		nltk=3.0.2 scikit-learn=0.16.1 toolz=0.7.2 
     source activate testenv
@@ -50,17 +50,17 @@ elif [[ "$DISTRIB" == "ubuntu" ]]; then
     # Create a new virtualenv using system site packages for numpy and scipy
     virtualenv --system-site-packages testvenv
     source testvenv/bin/activate
-    pip install nose
+    pip3 install nose
 fi
 
 
-pip install coverage coveralls lda
+pip3 install coverage coveralls lda
 
 
-python -c "import nltk; nltk.download('maxent_treebank_pos_tagger'); nltk.download('punkt')"
+python3 -c "import nltk; nltk.download('maxent_treebank_pos_tagger'); nltk.download('punkt')"
 # Build scikit-learn in the install.sh script to collapse the verbose
 # build output in the travis output when it succeeds.
-python --version
-python -c "import numpy; print('numpy %s' % numpy.__version__)"
-python -c "import scipy; print('scipy %s' % scipy.__version__)"
-# python setup.py build_ext --inplace
+python3 --version
+python3 -c "import numpy; print('numpy %s' % numpy.__version__)"
+python3 -c "import scipy; print('scipy %s' % scipy.__version__)"
+# python3 setup.py build_ext --inplace

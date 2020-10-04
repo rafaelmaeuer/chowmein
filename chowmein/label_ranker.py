@@ -162,11 +162,11 @@ class LabelRanker(object):
         chosen_labels = []
 
         # don't use [[]] * n_topics !
-        for _ in xrange(n_topics):
+        for _ in range(n_topics):
             chosen_labels.append(list())
             
-        for i in xrange(n_topics):
-            for j in xrange(k_labels):
+        for i in range(n_topics):
+            for j in range(k_labels):
                 inds, scores = self.label_mmr_score(i, chosen_labels[i],
                                                     label_scores,
                                                     label_models)

@@ -29,9 +29,9 @@ class LabelCountVectorizer(object):
         """
         label_len = len(label_tokens)
         cnt = 0
-        for i in xrange(len(context_tokens) - label_len + 1):
+        for i in range(len(context_tokens) - label_len + 1):
             match = True
-            for j in xrange(label_len):
+            for j in range(label_len):
                 if label_tokens[j] != context_tokens[i+j]:
                     match = False
                     break

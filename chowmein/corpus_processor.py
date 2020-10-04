@@ -2,6 +2,20 @@ import nltk
 from toolz.functoolz import partial
 from nltk.stem.porter import PorterStemmer
 
+nltk.download('averaged_perceptron_tagger')
+
+# Necessary for Python3
+def list_filter(function, iterable):
+    """my_filter(function or None, iterable) --> filter object
+
+    Return an iterator yielding those items of iterable for which function(item)
+    is true. If function is None, return the items that are true."""
+    if function is None:
+        return (item for item in iterable if item)
+    return list(item for item in iterable if function(item))
+
+# Necessary for Python3
+list_map = lambda func, *iterable: list(map(func, *iterable))
 
 class CorpusBaseProcessor(object):
     """
@@ -38,9 +52,8 @@ class CorpusWordLengthFilter(CorpusBaseProcessor):
         valid_length = (lambda word:
                         len(word) >= self._min and
                         len(word) <= self._max)
-        filter_tokens = partial(filter, valid_length)
-        return map(filter_tokens, docs)
-    
+        filter_tokens = partial(list_filter, valid_length)
+        return list_map(filter_tokens, docs)
 
 porter_stemmer = PorterStemmer()
 
@@ -66,9 +79,8 @@ class CorpusStemmer(CorpusBaseProcessor):
         list of list of str: the stemmed corpus
         """
         assert isinstance(docs[0], list)
-        stem_tokens = partial(map, self._stem_func)
-        return map(stem_tokens, docs)
-
+        stem_tokens = partial(list_map, self._stem_func)
+        return list_map(stem_tokens, docs)
 
 class CorpusPOSTagger(CorpusBaseProcessor):
     def __init__(self, pos_tag_func=nltk.pos_tag):
@@ -92,4 +104,4 @@ class CorpusPOSTagger(CorpusBaseProcessor):
         list of list of str: the tagged corpus
         """
         assert isinstance(docs[0], list)
-        return map(self._pos_tag_func, docs)
+        return list_map(self._pos_tag_func, docs)
