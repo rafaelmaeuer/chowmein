@@ -11,10 +11,9 @@
             "program": "./label_topic.py",
             "console": "integratedTerminal",
             "args": [
-                "--line_corpus_path", "./datasets/nips-2014.dat",
-                "--preprocessing", "wordlen", "stem", "tag",
-                "--label_tags", "NN,NN", "JJ,NN",
-                "--n_cand_labels", "200"
+                "--line_corpus_path", "./datasets/corona-short.dat",
+                "--preprocessing", "wordlen", "tag",
+                "--label_tags", "NN,NN", "JJ,NN", "ADJA,NN", "FM,NN", "NE,NE", "JJ,NE", "ADJA,NE", "FM,NE", "NN,NE", "NE,NN"//['NN,NN', 'JJ,NN', 'NN,NE', 'JJ,NE', 'NE,NE', 'ADJA,NN', 'ADJA,NE', 'JJ,ADJA']
             ],
             "env": {
                 "NLTK_DATA": "./nltk_data"

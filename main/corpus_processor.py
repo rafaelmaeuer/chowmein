@@ -1,20 +1,13 @@
 import nltk
 from toolz.functoolz import partial
-from nltk.stem.porter import PorterStemmer
+# from nltk.stem.porter import PorterStemmer
+from nltk.stem.snowball import GermanStemmer
+from HanTa import HanoverTagger as ht
 
 nltk.download('averaged_perceptron_tagger')
 
 # Necessary for Python3
-def list_filter(function, iterable):
-    """my_filter(function or None, iterable) --> filter object
-
-    Return an iterator yielding those items of iterable for which function(item)
-    is true. If function is None, return the items that are true."""
-    if function is None:
-        return (item for item in iterable if item)
-    return list(item for item in iterable if function(item))
-
-# Necessary for Python3
+list_filter = lambda func, *iterable: list(filter(func, *iterable))
 list_map = lambda func, *iterable: list(map(func, *iterable))
 
 class CorpusBaseProcessor(object):
@@ -55,11 +48,12 @@ class CorpusWordLengthFilter(CorpusBaseProcessor):
         filter_tokens = partial(list_filter, valid_length)
         return list_map(filter_tokens, docs)
 
-porter_stemmer = PorterStemmer()
 
+# porter_stemmer = PorterStemmer()
+stemmer = GermanStemmer()
 
 class CorpusStemmer(CorpusBaseProcessor):
-    def __init__(self, stem_func=porter_stemmer.stem):
+    def __init__(self, stem_func=stemmer.stem):
         """
         Parameter:
         --------------
@@ -82,8 +76,20 @@ class CorpusStemmer(CorpusBaseProcessor):
         stem_tokens = partial(list_map, self._stem_func)
         return list_map(stem_tokens, docs)
 
+
+def ger_tag(sentence):
+    # Add tags on tokens
+    tag_list = []
+    tagger = ht.HanoverTagger('model/morphmodel_ger.pgz')
+    tags = tagger.tag_sent(sentence)
+    for tag in tags:
+        t = tag[0], tag[2]
+        tag_list.append(t)
+    return tag_list
+
 class CorpusPOSTagger(CorpusBaseProcessor):
-    def __init__(self, pos_tag_func=nltk.pos_tag):
+    # def __init__(self, pos_tag_func=nltk.pos_tag):
+    def __init__(self, pos_tag_func=ger_tag):
         """
         Parameter:
         --------------

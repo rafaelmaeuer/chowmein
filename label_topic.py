@@ -39,7 +39,7 @@ The format is:
     "{Word 1 tag},{Word 2 tag},...,{Word N tag}"
 Multiple constraints can be given.
 To disable it, pass 'None'""")
-    parser.add_argument('--label_min_df', type=int, default=5,
+    parser.add_argument('--label_min_df', type=int, default=2,
                         help='Minimum document frequency requirement for candidate labels')
 
     # LDA
@@ -47,13 +47,13 @@ To disable it, pass 'None'""")
                         help='Random state for LDA modeling')
     parser.add_argument('--lda_n_iter', type=int, default=400,
                         help='Iteraction number for LDA modeling')
-    parser.add_argument('--n_topics', type=int, default=6,
+    parser.add_argument('--n_topics', type=int, default=2,
                         help='Number of topics')
     parser.add_argument('--n_top_words', type=int, default=15,
                         help='Number of topical words to display for each topic')
 
     # Topic label
-    parser.add_argument('--n_labels', type=int, default=8,
+    parser.add_argument('--n_labels', type=int, default=4,
                         help='Number of labels displayed per topic')
 
     return parser
@@ -71,6 +71,13 @@ def get_topic_labels(corpus_path, n_topics,
     """
     print("Loading docs...")
     docs = load_line_corpus(corpus_path)
+
+    cleanDocs = []
+    for doc in docs:
+        if len(doc) > 3:
+            cleanDocs.append(doc)
+
+    docs = cleanDocs
 
     if 'wordlen' in preprocessing_steps:
         print("Word length filtering...")
@@ -99,7 +106,7 @@ def get_topic_labels(corpus_path, n_topics,
     print("Tag constraints: {}".format(tag_constraints))
 
     print("Generate candidate bigram labels(with POS filtering)...")
-    finder = BigramLabelFinder('pmi', min_freq=label_min_df,
+    finder = BigramLabelFinder('chi_sq', min_freq=label_min_df,
                                pos=tag_constraints)
     if tag_constraints:
         assert 'tag' in preprocessing_steps, \
@@ -114,7 +121,7 @@ def get_topic_labels(corpus_path, n_topics,
 
     pmi_cal = PMICalculator(
         doc2word_vectorizer=WordCountVectorizer(
-            min_df=5,
+            min_df=2,
             stop_words=load_lemur_stopwords()),
         doc2label_vectorizer=LabelCountVectorizer())
 
